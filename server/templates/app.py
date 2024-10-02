@@ -3,7 +3,8 @@ import os
 import google.generativeai as genai
 
 # Use environment variable for API key
-genai.configure(api_key=os.environ.get("AIzaSyC2DpVR1QcSHwlvh_UMZdTNNx63Kt4U0CY")) 
+#api_key= "AIzaSyC2DpVR1QcSHwlvh_UMZdTNNx63Kt4U0CY" #commented so that there is no leak issue
+genai.configure(api_key=os.environ.get("api_key")) 
 
 # Model configuration
 generation_config = {
