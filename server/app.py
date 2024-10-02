@@ -1,60 +1,59 @@
-import requests
 import os
+import google.generativeai as genai
 
-# Set API endpoint and key as environment variables
-API_ENDPOINT = os.environ['OPENAI_API_ENDPOINT']
-API_KEY = os.environ['OPENAI_API_KEY']
+# Use environment variable for API key
+api_key = os.getenv("GENAI_API_KEY")
+genai.configure(api_key="AIzaSyC2DpVR1QcSHwlvh_UMZdTNNx63Kt4U0CY")
 
-def get_answer(question, context):
-    """
-    Send a request to the OpenAI API to get an answer to a question.
+# Model configuration
+generation_config = {
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "top_k": 50,
+    "max_output_tokens": 512,
+    "response_mime_type": "text/plain",
+}
 
-    Args:
-    - question (str): The user's question.
-    - context (str): The context for the question.
+# Create a Gemini-1.5-pro model instance
+model = genai.GenerativeModel(
+    model_name="gemini-1.5-pro",
+    generation_config=generation_config,
+)
 
-    Returns:
-    - str: The answer to the question.
-    """
-    headers = {
-        'Authorization': f'Bearer {API_KEY}',
-        'Content-Type': 'application/json',
+# Function to initialize a chat session with a personalized greeting
+def initialize_chat_session(student_name, student_profile):
+    greeting = f"Hello {student_name}! I'm your AI learning companion. I'm here to help you with {student_profile['preferred_subject']}."
+    chat_session = model.start_chat(history=[{"content": greeting}])
+    return chat_session
+
+# Function to send a personalized message and handle errors
+def send_personalized_message(chat_session, user_input):
+    try:
+        response = chat_session.send_message(user_input)
+        model_response = response.text if response else "Sorry, I didn't understand that."
+        print(f"{student_name}: {user_input}") # type: ignore
+        print(f"AI: {model_response}")
+        return model_response
+    except Exception as e:
+        print(f"Error: {e}")
+        return "I encountered an error. Please try again later."
+
+# Main function to interact with the AI learning companion
+def main():
+    student_name = input("Enter your name: ")
+    student_profile = {
+        'age': int(input("Enter your age: ")),
+        'preferred_subject': input("Enter your preferred subject: "),
+        'learning_style': input("Enter your learning style (visual, auditory, kinesthetic): ")
     }
 
-    payload = {
-        "model": "gpt-4o-mini",
-        "messages": [
-            {"role": "user", "content": question},
-            {"role": "assistant", "content": context}
-        ],
-        "max_tokens": 150,
-        "temperature": 0.7,
-    }
-
-    response = requests.post(API_ENDPOINT, headers=headers, json=payload)
-
-    if response.status_code == 200:
-        response_data = response.json()
-        answer = response_data['choices'][0]['message']['content']
-        return answer
-    else:
-        return f"Error: {response.status_code}, {response.text}"
-
-def learning_companion():
-    """
-    The main function for the AI Learning Companion.
-    """
-    print("Welcome to your AI Learning Companion! Type 'exit' to quit.")
-    context = "The capital of France is Paris. It is known for its art, fashion, and culture."
+    chat_session = initialize_chat_session(student_name, student_profile)
 
     while True:
-        user_input = input("You: ")
-        if user_input.lower() == 'exit':
-            print("Goodbye!")
+        user_input = input("Enter your message: ")
+        if user_input.lower() == "quit":
             break
-        
-        answer = get_answer(user_input, context)
-        print(f"AI: {answer}")
+        model_response = send_personalized_message(chat_session, user_input)
 
 if __name__ == "__main__":
-    learning_companion()
+    main()
