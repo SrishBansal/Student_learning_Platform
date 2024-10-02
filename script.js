@@ -1,44 +1,110 @@
 document.addEventListener("DOMContentLoaded", () => {
-    loadHeader();
-    loadFooter();
-    loadContent();
-
-    document.getElementById('ask-button').addEventListener('click', askQuestion);
+    App.init();
 });
 
-function loadHeader() {
-    const header = document.getElementById('header');
-    header.innerHTML = `<h1>AI Learning Companion</h1>`;
-}
+const App = (() => {
+    function init() {
+        UI.loadHeader();
+        UI.loadFooter();
+        UI.loadContent();
+        document.getElementById('ask-button').addEventListener('click', askQuestion);
+    }
 
-function loadFooter() {
-    const footer = document.getElementById('footer');
-    footer.innerHTML = `<p>&copy; 2024 Learning Companion</p>`;
-}
+    async function askQuestion() {
+        const userInput = document.getElementById('user-input').value;
+        const responseDiv = document.getElementById('response');
 
-function loadContent() {
-    const content = document.getElementById('content');
-    content.innerHTML += `<p>Welcome to your personalized learning experience!</p>`;
-}
+        if (!Validator.validateInput(userInput)) {
+            UI.showError(responseDiv, 'Please enter a question.');
+            return;
+        }
 
-async function askQuestion() {
-    const userInput = document.getElementById('user-input').value;
-    const responseDiv = document.getElementById('response');
+        UI.showLoader(responseDiv);
 
-    if (!userInput) return;
+        try {
+            const response = await API.postQuestion(userInput);
+            UI.showResponse(responseDiv, response.answer);
+        } catch (error) {
+            UI.showError(responseDiv, Error: ${error.message});
+        }
+    }
 
-    try {
+    return { init };
+})();
+
+const UI = (() => {
+    function loadHeader() {
+        const header = document.getElementById('header');
+        header.innerHTML = <h1>AI Learning Companion</h1>;
+    }
+
+    function loadFooter() {
+        const footer = document.getElementById('footer');
+        footer.innerHTML = <p>&copy; 2024 Learning Companion. All rights reserved.</p>;
+    }
+
+    function loadContent() {
+        const content = document.getElementById('content');
+    //     content.innerHTML += <p>Welcome to your personalized learning experience!</p>;
+    }
+
+    function showLoader(element) {
+        element.innerHTML = `
+            <div class="loader">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>`;
+    }
+
+    function showResponse(element, message) {
+        element.innerHTML = <p class="response">${message}</p>;
+        element.classList.add('fade-in');
+    }
+
+    function showError(element, message) {
+        element.innerHTML = <p class="error">${message}</p>;
+        element.classList.add('fade-in');
+    }
+
+    return {
+        loadHeader,
+        loadFooter,
+        loadContent,
+        showLoader,
+        showResponse,
+        showError
+    };
+})();
+
+const API = (() => {
+    async function postQuestion(question) {
         const response = await fetch('/api/ask', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ question: userInput }),
+            body: JSON.stringify({ question })
         });
 
-        const data = await response.json();
-        responseDiv.innerHTML = `<p>${data.answer}</p>`;
-    } catch (error) {
-        responseDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+        if (!response.ok) {
+            throw new Error('Failed to fetch the answer.');
+        }
+
+        return await response.json();
     }
-}
+
+    return {
+        postQuestion
+    };
+})();
+
+const Validator = (() => {
+    function validateInput(input) {
+        return input.trim() !== '';
+    }
+
+    return {
+        validateInput
+    };
+})();
