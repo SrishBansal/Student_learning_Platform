@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | MyApp</title>
+    <link rel="stylesheet" href="Register.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <h1>Registration</h1>
+    </header>
+
+    <!-- Navigation Section -->
+    <nav class="navcontainer">
+        <div class="nav-links">
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <main>
+        <div class="register-box">
+            <h2>Create an Account</h2>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">New Password:</label>
+                    <input type="password" id="password" placeholder="Create your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

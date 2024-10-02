@@ -1,50 +1,49 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import requests
 
-app = Flask(__name__)
-CORS(app)
-
-# Example API endpoint for Gemini (replace with actual API)
-GEMINI_API_URL = "https://api.gemini.ai/generate"
-API_KEY = "AIzaSyAvtjxz8bhsTLS6coQ4yZcNy_mntFYxVuQ"
-
-@app.route('/api/ask', methods=['POST'])
-def ask():
-    user_input = request.json.get('question')
-    subject = request.json.get('subject')
-
-    # Prepare the request to the AI model
-    headers = {'Authorization': f'Bearer {API_KEY}'}
-    data = {
-        "input": user_input,
-        "subject": subject
+# Set your API endpoint and key
+API_ENDPOINT = "https://api.gemini.ai/v1/chat/completions"
+API_KEY = "AIzaSyAM6aieQA9pJANS_cLtkrIhTZGc4oyGphE"  
+def get_answer(question, context):
+    headers = {
+        'Authorization': f'Bearer {API_KEY}',
+        'Content-Type': 'application/json',
     }
 
-    # Call the Gemini API
-    response = requests.post(GEMINI_API_URL, json=data, headers=headers)
+    # Create the payload for the API request
+    payload = {
+        "model": "gemini",  # Specify the model to use
+        "messages": [
+            {"role": "user", "content": question},
+            {"role": "assistant", "content": context}  # Provide context if needed
+        ],
+        "max_tokens": 150,  # Adjust based on your needs
+        "temperature": 0.7,  # Adjust creativity of responses
+    }
+
+    # Send the request to the Gemini API
+    response = requests.post(API_ENDPOINT, headers=headers, json=payload)
 
     if response.status_code == 200:
-        result = response.json()
-        return jsonify(result), 200
+        response_data = response.json()
+        answer = response_data['choices'][0]['message']['content']
+        return answer
     else:
-        return jsonify({"error": "Error communicating with AI service"}), 500
+        return f"Error: {response.status_code}, {response.text}"
 
-@app.route('/api/quiz', methods=['POST'])
-def quiz():
-    subject = request.json.get('subject')
+# User interaction function
+def learning_companion():
+    print("Welcome to your AI Learning Companion! Type 'exit' to quit.")
+    context = "The capital of France is Paris. It is known for its art, fashion, and culture."
     
-    # Here you would generate quiz questions based on the subject
-    questions = generate_quiz(subject)  # This function would be implemented
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == 'exit':
+            print("Goodbye!")
+            break
+        
+        # Get an answer from the Gemini API
+        answer = get_answer(user_input, context)
+        print(f"AI: {answer}")
 
-    return jsonify({"questions": questions}), 200
-
-def generate_quiz(subject):
-    # Placeholder function to create quiz questions
-    return [
-        {"question": f"What is a key concept in {subject}?", "options": ["Option 1", "Option 2", "Option 3", "Option 4"]},
-        {"question": f"Explain an important fact about {subject}.", "options": []}
-    ]
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# Start the learning companion
+learning_companion()
