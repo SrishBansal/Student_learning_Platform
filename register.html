@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | MyApp</title>
-    <link rel="stylesheet" href="Register.css">
+    <link rel="stylesheet" href="register.css">
 </head>
 <body>
     <!-- Header Section -->
@@ -15,8 +15,6 @@
     <!-- Navigation Section -->
     <nav class="navcontainer">
         <div class="nav-links">
-            <a href="login.html">Login</a>
-            <a href="register.html">Register</a>
             <a href="about.html">About Us</a>
             <a href="contact.html">Contact</a>
         </div>
@@ -43,14 +41,17 @@
                     <label for="confirm-password">Confirm Password:</label>
                     <input type="password" id="confirm-password" placeholder="Confirm your password" required>
                 </div>
-                <button type="submit" class="btn">Register</button>
+                <button type="submit" class="btn" formaction="index.html">Register</button>
+                <div class="New">
+                    <b>Already have an account? | <a href="home.html" class="alink">Login</a></b>
+                </div>
             </form>
         </div>
     </main>
 
-    <footer>
-        <p>Already have an account? <a href="login.html">Login</a></p>
-    </footer>
+    <!-- <footer>
+        <p>Already have an account? <a href="home.html">Login</a></p>
+    </footer> -->
 
     <script src="script.js"></script>
 </body>

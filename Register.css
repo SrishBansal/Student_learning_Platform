@@ -2,19 +2,19 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0; /* Light background for the entire page */
+    background: linear-gradient(135deg, #0d0d0d 0%, #1c1c1c 100%);
 }
 
 .header {
-    background-color: black; /* Header color */
+    background: linear-gradient(135deg, rgb(255, 110, 90), #000000);
     color: #fff;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
 }
 
 .navcontainer {
     background-color: teal; /* Navbar color */
-	border-radius: 10px;
+	/* border-radius: 10px; */
     padding: 10px;
     text-align: center;
 }
@@ -30,11 +30,11 @@ body {
 }
 
 .nav-links a:hover {
-    background-color: #45a049; /* Hover effect for navbar links */
+    background-color: #F31D00; /* Hover effect for navbar links */
 }
 
 main {
-	background-color: aqua;
+	background: linear-gradient(135deg, #0d0d0d 0%, #1c1c1c 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,7 +43,7 @@ main {
 }
 
 .register-box {
-    background-color: #fff;
+    background: linear-gradient(135deg, rgb(255, 110, 90), #000000);
     padding: 30px;
     width: 400px;
     border: 1px solid #ddd;
@@ -73,7 +73,7 @@ input[type="password"] {
 }
 
 .btn {
-    background-color: #4CAF50; /* Button color */
+    background-color: #ea412a; /* Button color */
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -82,17 +82,27 @@ input[type="password"] {
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
-
+.New{
+    margin: 10px;
+    margin-left: 0px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+.alink{
+    text-decoration: none;
+    color: rgb(255, 110, 90);
+}
 .btn:hover {
-    background-color: #45a049; /* Hover effect for buttons */
+    background-color: #F31D00; /* Hover effect for buttons */
 }
 
 footer {
-    background-color: #333;
+    background: linear-gradient(135deg, #0d0d0d 0%, #1c1c1c 100%);
     color: #fff;
     padding: 10px;
     text-align: center;
-    width: 100%;
+    width: 100vh;
+    margin: auto;
 }
 
 footer a {
@@ -102,5 +112,5 @@ footer a {
 }
 
 footer a:hover {
-    color: #ccc;
+    color: #ababab;
 }
