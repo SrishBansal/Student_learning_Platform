@@ -79,10 +79,12 @@ const UI = (() => {
 
 const API = (() => {
     const apiKey = 'AIzaSyAM6aieQA9pJANS_cLtkrIhTZGc4oyGphE'; 
+    const genAI = new GoogleGenerativeAI(apiKey);
+
 
     async function postQuestion(question) {
         const context = "The capital of France is Paris. It is known for its art, fashion, and culture."; 
-        const response = await fetch('https://api.gemini.ai/v1/chat/completions', {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
