@@ -1,4 +1,4 @@
-﻿**Student_learning_Platform**
+﻿#Student_learning_Platform
 
 **Generative AI Teaching Tool**
 This repository contains code for a Generative AI-based tool that teaches users about various topics interactively. The AI model generates content, answers questions, and provides explanations on different subjects, making learning engaging and personalized.
@@ -15,7 +15,8 @@ This project leverages the power of generative AI to provide educational content
 
 
 **Getting Started**
-#Prerequisites
+
+**Prerequisites**
 Python 3.8+
 Required Libraries: Listed in requirements.txt.
 Installation
